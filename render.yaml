@@ -1,0 +1,17 @@
+# Render blueprint — deploy with "New +" -> "Blueprint" pointing at your repo,
+# or just create a Web Service manually with:
+#   build command:  pip install -r requirements.txt
+#   start command: gunicorn -b 0.0.0.0:$PORT --workers 1 pins_flask:app
+services:
+  - type: web
+    name: pins-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -b 0.0.0.0:$PORT --workers 1 pins_flask:app
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.4
+      - key: PINS_KEY
+        sync: false          # set your secret API key in the Render dashboard
